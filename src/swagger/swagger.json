@@ -1,0 +1,205 @@
+
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Rick and Morty",
+    "description": "API para CRUD de personagens do Rick and Morty",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001/",
+      "description": "URL de teste"
+    }
+  ],
+  "paths": {
+    "/characters": {
+      "get": {
+        "summary": "Show all characters.",
+        "description": "Route wich shows all characters.",
+        "tags": ["Characters"],
+        "responses": {
+          "400": {
+            "description": "There is no character registered!"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Character"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/characters/find/{id}": {
+      "get": {
+        "summary": "Search a character with the ID.",
+        "description": "Route wich search a character with the ID.",
+        "tags": ["Characters"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID for character search.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Character not found!!"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Character"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/characters/create": {
+      "post": {
+        "summary": "Create a new character.",
+        "description": "Route wich enables to create a new character",
+        "tags": ["Characters"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Character"
+              },
+              "examples": {
+                "Character": {
+                  "value": {
+                    "name": "Mechanical Rick",
+                    "imageUrl": "https://rickandmortyapi.com/api/character/avatar/218.jpeg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Please complete all required text fields!"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Character"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/characters/update/{id}": {
+      "put": {
+        "summary": "Edit a character with the ID",
+        "description": "Route wich enables to edit a character with the ID.",
+        "tags": ["Characters"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Needs character ID for search.",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Character"
+              },
+              "examples": {
+                "Character": {
+                  "value": {
+                    "name": "Tom Randolph",
+                    "imageUrl": "https://rickandmortyapi.com/api/character/avatar/356.jpeg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "ID invalid or  complete all required text fields."
+          },
+          "206": {
+            "description": "Character not found with this ID."
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Character"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/characters/delete/{id}": {
+      "delete": {
+        "summary": "Delete a character with the ID.",
+        "description": "Route wich enables to delete a character with the ID.",
+        "tags": ["Characters"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Needs character ID to delete.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "ID Invalid!"
+          },
+          "206": {
+            "description": "Character not found with this ID."
+          },
+          "200": {
+            "description": "Character deleted!"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Character": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
